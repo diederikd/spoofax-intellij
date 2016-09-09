@@ -33,7 +33,7 @@ repositories {
         url "http://artifacts.metaborg.org/content/repositories/releases/"
     }
     maven {
-        url "http://artifacts.metaborg.org/content/repositories/snapshots/"
+        url "http://artifacts.metaborg.org/content/repositories/in4303/"
     }
     maven {
         url "https://raw.githubusercontent.com/pluto-build/pluto-build.github.io/master/mvnrepository/"
