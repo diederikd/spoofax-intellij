@@ -1,34 +1,17 @@
-buildscript {
-    repositories {
-        maven { url "http://dl.bintray.com/jetbrains/intellij-plugin-service" }
+
+intellij {
+    type = "JPS"
+}
+
+task(printAllDependencies, description: 'Prints all runtime dependencies.') {
+    doLast {
+        def deps = configurations.runtime.exclude group: "com.jetbrains", module: "idea"
+        def jars = deps.resolve().collect { it.name }.findAll { !it.startsWith('tools.jar') }
+        def result = [ "org.metaborg.jps-${metaborgVersion}.jar" ] + jars.sort()
+        println result.join(';')
     }
-}
-
-plugins {
-    id "java"
-    id "idea"
-    id "eclipse"
-    id "maven"
-    id "org.jetbrains.intellij" version "0.1.10"
-    id "com.github.johnrengelman.shadow" version "1.2.3"
-}
-apply from: '../org.metaborg.intellij-common/common.gradle'
-
-task(printAllDependencies, description: 'Prints all runtime dependencies.') << {
-    def deps = configurations.runtime.exclude group: "com.jetbrains", module: "idea"
-    def jars = deps.resolve().collect { it.name }.findAll { !it.startsWith('tools.jar') }
-    def result = [ "org.metaborg.jps-${metaborgVersion}.jar" ] + jars.sort()
-    println result.join(';')
 }
 
 dependencies {
-    compile     project(":org.metaborg.intellij-common")
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            mavenLocal()
-        }
-    }
+    compile     project(":org.metaborg.spoofax-common")
 }
